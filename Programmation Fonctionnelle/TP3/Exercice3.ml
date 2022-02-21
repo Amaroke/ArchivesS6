@@ -51,8 +51,6 @@ let rec fold_tree (f, g) t = match t with
 
 (*
 9.
-Écrivez les fonctions left , nb_nodes, nb_leaves, depth_tree, sum_tree sous la forme fun t −> fold_tree
-(f, g) t.
 *)
 
 let left_fold = fun t -> fold_tree ((fun x -> x), (fun a -> fun b -> a)) t ;;
@@ -64,3 +62,15 @@ let nb_leaves_fold = fun t -> fold_tree ((fun x -> 1), (fun a -> fun b -> a + b)
 let depth_tree_fold = fun t -> fold_tree ((fun x -> 1), (fun a -> fun b -> 1 + if(a > b) then a else b));;
 
 let sum_tree_fold = fun t -> fold_tree ((fun x -> x), (fun a -> fun b -> a + b)) t ;;
+
+(*
+10.
+*)
+
+let rec swap_tree t = match t with
+| Feuille x ->  Feuille x
+| Noeud (a,b) -> Noeud (swap_tree b, swap_tree a);;
+
+(*
+Non car une feuille n'est pas un noeud.
+*)
