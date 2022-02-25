@@ -8,5 +8,5 @@ client2 n'est pas compatible avec server3 car server3 attends la réception de 2
 
 Est-ce que client3 est compatible avec server2 ? Justifier 
 
-client3 est compatible avec serveur2 uniquement lorsque l'envoi des deux entiers se fait en même temps, autrement même problème que précédement.
+client3 est compatible avec serveur2 car peu importe si les envoi se font d'une seule fois ou non ils sont tous reçu grâce à la fonction.
 

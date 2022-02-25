@@ -3,21 +3,12 @@ from socket import *
 import sys
 
 def really_recv(n):
-    try:
-        (socket2, adresse_client) = mysocket.accept()
-    except:
-        print("Erreur lors de la connexion du client.")
-        sys.exit(-6)
-    len_message = 0
-    while(len_message != n):
-        print(len_message)
-        try:
-            message = socket2.recv(n)
-            len_message = len(message)
-        except:
-            print("Erreur lors de la réception du message")
-            sys.exit(-7)
-    return (adresse_client, message, socket2)
+    receive_message_bytes = b''
+
+    while len(receive_message_bytes) < n:
+        receive_message_bytes += socket2.recv(1)
+
+    return receive_message_bytes
 
 
 if len(sys.argv) != 3:
@@ -35,7 +26,13 @@ except:
     sys.exit(-2)
 
 try:
-    (adresse_client, message, socket2) = really_recv(8)
+    (socket2, adresse_client) = mysocket.accept()
+except:
+    print("Erreur lors de la connexion du client.")
+    sys.exit(-6)
+
+try:
+    message = really_recv(8)
 except:
     print("Erreur lors de la réception du message.")
     sys.exit(-3)
