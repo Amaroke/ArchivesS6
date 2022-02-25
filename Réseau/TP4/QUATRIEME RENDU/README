@@ -1,0 +1,12 @@
+Est-ce que client3 est compatible avec server2 ? Justifier.
+
+client3 est compatible avec serveur2, mais seul le premier message envoyé par client3 est pris en compte par serveur2.
+
+Est-ce que client2 est compatible avec server3 ? Justifier.
+
+client2 n'est pas compatible avec server3 car server3 attends la réception de 2 messages et client2 n'en envoit qu'un seul.
+
+Est-ce que client3 est compatible avec server2 ? Justifier 
+
+client3 est compatible avec serveur2 uniquement lorsque l'envoi des deux entiers se fait en même temps, autrement même problème que précédement.
+

@@ -1,0 +1,22 @@
+Je lance 3 terminaux.
+
+Le serveur dans le premier :
+"python3 serveradd2.py 127.0.0.1 5021"
+
+Un client dans le deuxième :
+"python3 clientadd2.py 127.0.0.1 5021"
+
+Un deuxième client dans le troisème :
+"python3 clientadd2.py 127.0.0.1 5021"
+
+Je donne un entier au premier client, puis deux au deuxième client,
+je reçois le résultat de la somme des deux premiers entiers envoyé au serveur.
+
+Client 1 :
+Donner un entier : 10
+Donner un entier :
+
+Client 2 :
+Donner un entier : 550
+Donner un entier : 22
+Voici le résultat : 560

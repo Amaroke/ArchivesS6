@@ -1,0 +1,58 @@
+#client3.py envoi parfois deux messages, il y a alors bien deux réceptions du côté du serveur, mais parfois il envoit les deux messages d'un coup et dans ce
+#cas cela pose problème.
+
+from socket import *
+import sys
+
+if len(sys.argv) != 3:
+    print("Le nombre d'argument fourni n'est pas le bon merci de préciser l'IP et le port.")
+    sys.exit(-1)
+
+try:
+    host = sys.argv[1]
+    port = int(sys.argv[2])
+    mysocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
+except:
+    print("Erreur lors de la création du socket")
+    sys.exit(-2)
+
+try:
+    mysocket.connect((host, port))
+except:
+    print("Erreur lors de la connexion.")
+    sys.exit(-3)
+
+
+x = int(input("Donner un entier : "))
+y = int(input("Donner un deuxième entier : "))
+
+x_bytes = int.to_bytes(x, 4, byteorder="big")
+y_bytes = int.to_bytes(y, 4, byteorder="big")
+
+try:
+    sent = mysocket.send(x_bytes)
+    sent = mysocket.send(y_bytes)
+except:
+    print("Erreur lors de l'envoi des messages.")
+    sys.exit(-4)
+
+try:
+    resultat_bytes = mysocket.recv(60)
+except:
+    print("Erreur lors de la réception du message.")
+    sys.exit(-5)
+    
+resultat = str(resultat_bytes, "utf-8")
+
+print("Voici le résultat : " + str(int.from_bytes(resultat_bytes, byteorder="big")))
+
+try:
+    mysocket.close()
+except:
+    print("Erreur lors de la fermeture du socket.")
+    sys.exit(-5)
+
+sys.exit(0)
+
+#client3.py envoi parfois deux messages, il y a alors bien deux réceptions du côté du serveur, mais parfois il envoit les deux messages d'un coup et dans ce
+#cas cela pose problème.
