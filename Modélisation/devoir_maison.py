@@ -1,44 +1,47 @@
 # MATHIEU STEINBACH Hugo
-
-# Je définis une classe arête qui contient la bande passante d'un routeur source à un routeur destination.
-class arete:
-    def __init__(arc, source, destination, bande_passante):
-        arc.source = source
-        arc.destination = destination
-        arc.bande_passante = bande_passante
+# 
+# # 1.La bande passante de c est la plus petite valeur disponnible entre un rij et un rij+1 sur le chemin.
+# 2.Le meilleur chemin parmis plusieurs chemins disponible est celui ayant le plus petit élément dans la matrice étant plus grand que le plus plus petit élément dans la matrice des autres chemins.
 
 
-# Je parcours ma matrice et je créé la liste d'arêtes correspondantes que je récupère comme résultat.
-def init_graphe(matrice):
-    aretes = []
-    # Je parcours tous les sommets du graphe, et je créé les arêtes lorsqu'elle existe.
-    for i in range(len(matrice)):
-        for j in range(len(matrice[i])):
-            # Si l'arête existe d'après la matrice, on créé l'arête.
-            if matrice[i][j] != 0:
-                aretes.append(arete(i, j, matrice[i][j]))
-    return aretes
+def recuperer_bande_passante_max(reseau, route):
+    # J'initialise le flot max à +infini.
+    bande_passante_max = float("inf")
+    # Je les sommets de ma route.
+    for i in range(0, len(route) - 1):
+        # Je met à jour mon flot max, en prenant la valeur de la plus petite arête parcourue.
+        bande_passante_max = min(bande_passante_max, reseau[route[i]][route[i + 1]])
+    return bande_passante_max
 
 
-def parcourir(sommet, aretes, bandes_passantes):
-    # Je parcours mes arêtes.
-    for arete in aretes:
-        # Si la source de l'arête parcourue correspond au sommet actuellement regardé.
-        if arete.source == sommet:
-            # Je prends le min entre la bande passante de l'arête parcourue et celle précédement enregistrée.
-            bande_passante_arete = min(
-                bandes_passantes[sommet][0], arete.bande_passante
-            )
-            # Je récupère l'ancienne bande passante pour aller à la destination.
-            destination = bandes_passantes[arete.destination]
-            # On conserve la plus grande bande_passante.
-            if bande_passante_arete > destination[0]:
-                destination = (bande_passante_arete, sommet)
-            # Je la met à jour
-            bandes_passantes[arete.destination] = destination
+def recherche_route(
+    reseau, routeur_source, routeur_destination, sommets_visites, route, routes
+):
+    # J'indique que j'ai visité le routeur source.
+    sommets_visites[routeur_source] = True
+    # Je créé une copie de ma route, pour pouvoir l'éditer.
+    route = route.copy()
+    # J'ajoute le routeur source à ma route.
+    route.append(routeur_source)
+
+    # Si le routeur source est est le routeur de destination.
+    if routeur_source is routeur_destination:
+        # J'ajoue ma route à ma liste de routes.
+        routes.append(route)
+    else:
+        # je parcours mes sommets.
+        for i in range(0, len(reseau)):
+            # Si je ne l'ai pas encore visité et qu'il existe un chemin.
+            if not (sommets_visites[i]) and not (reseau[routeur_source][i] == 0):
+                # Je lance la recherche de chemin depuis le sommet parcourue.
+                recherche_route(
+                    reseau, i, routeur_destination, sommets_visites, route, routes
+                )
+    sommets_visites[routeur_source] = False
 
 
-def route(bandes_passantes, routeur_source, routeur_destination):
+def affichage_route(meilleure_route):
+    # ATTENTION s'il y a plus de sommets que de lettres dans l'alphabet, les sommets prendront le même nom.
     alphabet = [
         "A",
         "B",
@@ -67,55 +70,55 @@ def route(bandes_passantes, routeur_source, routeur_destination):
         "Y",
         "Z",
     ]
+    # J'affiche les chemins en suivant la logique sommet 0 = A, sommet 1 = B, etc...
     print(
         "Le meilleur chemin de",
-        alphabet[routeur_source % 26],
+        alphabet[meilleure_route[0 % 26]],
         "à",
-        alphabet[routeur_destination - 1 % 26],
+        alphabet[meilleure_route[len(meilleure_route) - 1] % 26],
         "est le suivant : ",
         end="",
     )
-    # On met le premier sommet parcouru.
-    route = alphabet[routeur_source % 26]
-    # On récupère le nombre de sommets.
-    nb_sommets = len(bandes_passantes) - 1
-    sommets = []
-    # On récupère les sommets dans l'ordre du parcours du dernier au premier.
-    while bandes_passantes[nb_sommets][1] != -1:
-        sommets.append(nb_sommets)
-        nb_sommets = bandes_passantes[nb_sommets][1]
-    # On remet les sommets dans l'ordre du parcours.
-    sommets.reverse()
-    # On affiche la route.
-    for s in sommets:
-        route += " → " + alphabet[(s + routeur_source) % 26]
-    return route
+    for i in range(0, len(meilleure_route) - 1):
+        print(alphabet[meilleure_route[i] % 26], "→ ", end="")
+    print(alphabet[meilleure_route[len(meilleure_route) - 1] % 26])
 
 
 def meilleur_routage(reseau, routeur_source, routeur_destination):
 
-    graphe = [] * (routeur_destination - routeur_source)
-    for i in range(routeur_source, routeur_destination):
-        liste = []
-        for j in range(routeur_source, routeur_destination):
-            liste.append(reseau[i][j])
-        graphe.append(liste)
+    # Je récupère la taille de mon réseau.
+    taille_reseau = len(reseau)
+    # J'initialise une liste vide de routes.
+    routes = []
+    # Je fais une liste qui enregistre tous les sommets visités, initialisé à Faux pour chaque sommet.
+    sommets_visites = taille_reseau * [False]
 
-    # Je récupère toutes les arêtes de mon graphe.
-    arcs = init_graphe(graphe)
+    # Je lance la recherche de tous les chemins depuis le routeur source jusqu'au routeur de destination.
+    recherche_route(
+        reseau, routeur_source, routeur_destination, sommets_visites, [], routes
+    )
 
-    # On initialiser les bandes passantes.
-    bandes_passantes = [(-float("inf"), -1)] * len(graphe)
-    bandes_passantes[0] = (float("inf"), -1)
+    # J'initialise une variable à moins l'infini, cette variable prendra la valeur du flot maximal parmis tous les chemins disponibles.
+    bande_passante_max = -float("inf")
+    # J'enregistre la meilleure route, représentée par la liste des sommets, initialement vide.
+    meilleure_route = []
 
-    for sommet in range(len(bandes_passantes)):
-        parcourir(sommet, arcs, bandes_passantes)
+    # Je parcours mes routes.
+    for route in routes:
+        # Je récupère le flot de la route parcourue que je définis comme la meilleure.
+        bande_passante_max_temporaire = recuperer_bande_passante_max(reseau, route)
+        # Si la route est meilleure que celle trouvée précédement.
+        if bande_passante_max_temporaire > bande_passante_max:
+            # Je met à jour le flot max trouvé.
+            bande_passante_max = bande_passante_max_temporaire
+            # Et je met à jour la meilleure route.
+            meilleure_route = route
 
-    print(route(bandes_passantes, routeur_source, routeur_destination))
+    affichage_route(meilleure_route)
 
 
 # La matrice des bandes passantes correspondante au graphe donné en exemple, c'est elle qu'il faut remplacer pour faire d'autres tests.
-# Attention s'il y a plus de sommets que de lettres dans l'alphabet, ils auront le même nom.
+# ATTENTION s'il y a plus de sommets que de lettres dans l'alphabet, les sommets prendront le même nom.
 reseau = [
     [0, 5, 8, 0, 0, 0],  # A
     [0, 0, 2, 4, 2, 4],  # B
@@ -125,13 +128,10 @@ reseau = [
     [0, 0, 0, 0, 0, 0],  # F
 ]
 
-# Pour ici, on peut modifier les tests, en donnant autre chose que 0 et 6, actuellement 0 et 6 signifie un chemin du sommet 0 (A) au sommet 6 (F).
-meilleur_routage(reseau, 0, 6)
+# Pour ici, on peut modifier les tests, en donnant autre chose que 0 et 5, actuellement 0 et 5 signifie un chemin du sommet 0 (A) au sommet 5 (F).
+meilleur_routage(reseau, 0, 5)  # De A à F.
+meilleur_routage(reseau, 0, 2)  # De A à C.
+meilleur_routage(reseau, 3, 5)  # De D à F.
+meilleur_routage(reseau, 0, 0)  # De D à F.
 
-# D'autres tests :
-meilleur_routage(reseau, 1, 6)  # De A à F
-meilleur_routage(reseau, 2, 6)  # De B à F
-meilleur_routage(reseau, 3, 6)  # De C à F
-meilleur_routage(reseau, 4, 6)  # De D à F
-meilleur_routage(reseau, 5, 6)  # De E à F
-meilleur_routage(reseau, 1, 4)  # De B à D
+# MATHIEU STEINBACH Hugo
