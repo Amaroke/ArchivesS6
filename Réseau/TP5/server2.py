@@ -24,8 +24,8 @@ while True:
             message = adr[0] + " se connecte."
             message_bytes = bytes(message, "utf-8")
         else:
-            message_recu = socket.recv(1000)
-            if len(message_recu) == 0 or str(message_recu.strip(), 'utf-8') == 'FIN':
+            message_recu = socket.recv(1024)
+            if len(message_recu) == 0 or str(message_recu, 'utf-8') == 'FIN':
                 socket.close()
                 clients.remove(socket)
                 sockets.remove(socket)
@@ -33,8 +33,8 @@ while True:
                 message = liste_clients[socket][0] + " se deconnecte."
                 message_bytes = bytes(message, "utf-8")
             else:
-                print('[' + liste_clients[socket][0] + '] ' + str(message_recu.rstrip(), "utf-8"))
-                message = '[' + liste_clients[socket][0] + '] ' + str(message_recu.rstrip(), "utf-8")
+                print(str(message_recu, "utf-8"))
+                message = str(message_recu, "utf-8")
                 message_bytes = bytes(message, "utf-8")
                 print(message)
             

@@ -8,9 +8,9 @@ if len(sys.argv) != 3:
 try:
     host = sys.argv[1]
     port = int(sys.argv[2])
-    mysocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
-    myself = gethostname()
-    mysocket.connect((host, port))
+    (fam, typ, pro, _, adr)=getaddrinfo(host, port)[0]
+    mysocket = socket(fam,typ,pro)
+    mysocket.connect(adr)
 
     arret = False
 
@@ -19,23 +19,22 @@ try:
         veutmeparler, _, _ = select.select(sockets, [], [])
         for socket in veutmeparler:
             if socket == mysocket:
-                msg = socket.recv(1000)
+                msg = socket.recv(1024)
                 if not msg:
                     arret = True
                     sockets.remove(socket)
                 else:
-                    print(str(msg.strip(), "utf-8"))
+                    print(str(msg, "utf-8"))
             else:
                 message = sys.stdin.readline()
                 sys.stdout.flush()
                 sys.stdin.flush()
-
-                if message.strip() == "FIN":
+                if message == "FIN":
                     print("Vous vous êtes déconnecté")
                     sockets.remove(socket)
                     arret = True
                 else:
-                    message_bytes = bytes(message.strip(), "utf-8")
+                    message_bytes = bytes(message, "utf-8")
                     sent = mysocket.send(message_bytes)
     mysocket.close()
 
