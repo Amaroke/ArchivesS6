@@ -1,8 +1,0 @@
-(library
- (name miniml)
- (flags (:standard -w -39-27))
-)
-
-(ocamllex miniml_lex)
-(ocamlyacc
-  (modules miniml_parse))
