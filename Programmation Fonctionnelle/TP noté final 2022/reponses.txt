@@ -1,0 +1,19 @@
+Q1 à Q8. traitée dans eval.ml les réponses se situe à chaque fois entre les commentaires correspondants aux exercices.
+
+Q1 -> lignes 37, 76 et 183.
+Q2 -> lignes 38, 77 et 184 à 194.
+Q3 -> lignes 39, 78 et 195 à 200.
+Q4 -> lignes 98 à 101.
+Q5 -> lignes 42, 82 et 211.
+Q6 -> lignes 43, 81 et 203 à 210.
+Q7 -> lignes 104 à 112.
+Q8 -> ligne 113.
+
+Q9. non traitée.
+
+Q10 et Q11. traitée dans eval.ml
+
+Q10 -> lignes 85 et 214.
+Q11 -> lignes 116 à 126.
+
+Q12 à Q16. non traitée.

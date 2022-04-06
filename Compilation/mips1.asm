@@ -109,16 +109,16 @@ main:
 	addi $sp,$sp,8
 
 	move $a0, $v0
-	beq $zero, $a0, Sinon28
+	beq $zero, $a0, Sinon3
 	la $a0, AffichageVrai
 	li $v0, 4
 	syscall
-	b FinSi28
-	Sinon28:
+	b FinSi3
+	Sinon3:
 	la $a0, AffichageFaux
 	li $v0, 4
 	syscall
-	FinSi28:
+	FinSi3:
 	la $a0, saut_ligne
 	li $v0, 4
 	syscall
