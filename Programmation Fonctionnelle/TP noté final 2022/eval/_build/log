@@ -4,7 +4,7 @@
 # Workspace root: "/home/amaroke/Documents/ArchivesS6/Programmation
 # Fonctionnelle/TP not\195\169 final 2022/eval"
 # Auto-detected concurrency: 8
-$ /usr/bin/ocamlc.opt -config > /tmp/dune_f5d414_output
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_711d5f_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -110,42 +110,3 @@ $ /usr/bin/ocamlc.opt -config > /tmp/dune_f5d414_output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl test/main.ml) > _build/default/test/.main.eobjs/main.ml.d
-$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I test/.main.eobjs/byte -I miniml/.miniml.objs/byte -no-alias-deps -opaque -o test/.main.eobjs/byte/main.cmo -c -impl test/main.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I test/.main.eobjs/byte -I test/.main.eobjs/native -I miniml/.miniml.objs/byte -I miniml/.miniml.objs/native -intf-suffix .ml -no-alias-deps -opaque -o test/.main.eobjs/native/main.cmx -c -impl test/main.ml)
-$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -o test/main.exe miniml/miniml.cmxa test/.main.eobjs/native/main.cmx)
-$ (cd _build/default/test && ./main.exe)
-> testing let f = fun x -> fun y -> x in f 3 (tee 4)
-> Résultat: 43
-> testing let x = "toto" in x
-> Résultat: "toto"
-> testing let x = "toto" in x ^ x
-> Résultat: "totototo"
-> testing let x = "toto" in x.[1] ^ x.[0]
-> Résultat: "ot"
-> testing let x = "toto" in len x
-> Résultat: 4
-> testing let palindrome = fun s -> let n = len s in let rec palindrome_aux = (fun i ->  if i = n - 1 then true else (if s.[i] = s.[n - 1 - i] then palindrome_aux (i+1) else false)) in palindrome_aux 0 in palindrome "radar"
-> Résultat: true
-> testing 1; 2
-> Résultat: warning: this expression should have type unit.2
-> testing let f = fun x -> (print_int 1; x) in f 4
-> Résultat: 14
-> testing let f = fun x -> (print_expr true; x) in f 4
-> Résultat: true4
-> testing ( ignore 2 ; 4 ) + 6
-> Résultat: 10
-> testing (1,2)
-> Résultat: (1,2)
-> testing (1,2,3)
-> Résultat: (1,2,3)
-> testing fst (1,2)
-> Résultat: 1
-> testing let x = 1 in (x, (x+1))
-> Résultat: (1,2)
-> testing let (a,b) = (1,2) in let (a,b) = (b,a) in a - b
-> Résultat: Pas encore fait, ligne 216
-> testing (fun (x,y) -> x+y) (1,2)
-> Résultat: Pas encore fait, ligne 215
-> testing let (x,y,z) = (1,2,3) in  x+z
-> Résultat: Pas encore fait, ligne 216
