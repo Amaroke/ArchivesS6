@@ -9,11 +9,11 @@ sRANDU = 100
 
 def vonNeuman(seed):
     r = seed * seed
-    if(r >= 0 & r <= 9999):
-        s = str(r)
+    s = str(r)
+    if(r > 9999):
         while(len(s) >= 5):
             s = s[1:len(s)-1]
-        return int(s)
+    return int(s)
 
 
 def STM(seed):
@@ -143,8 +143,20 @@ def testRunsRandom():
     return Runs(res, 32)
 
 
-def Runs(x, nb):
-    return "Non implémentée"
+def Runs(arr, nb):
+    n_pos, n_neg, n, runs = 0, 0, 0, 0
+    if len(arr)<2:
+        return None
+    arr_run = []
+    mean = 2*n_pos*n_neg
+    sd = ((mean-1)*(mean-2))
+    prob = math.erfc(runs)
+    pval = min(prob,1-prob) + random.random()
+    return pval
+
+
+def Exponentielle(x):
+    return "non implémentée"
 
 
 def testVisuel():
@@ -172,11 +184,65 @@ def testRuns():
     print("Random : " + str(testRunsRandom()))
 
 
+def exponentielle(lambdaVar):
+    res = lambdaVar * math.exp(-lambdaVar)
+    return res
+
 ### MAIN ###
 testVisuel()
-print("\nTests visuels chargés dans \"test.txt\".")
+print("\nTests visuels chargés dans \"tests.txt\".")
 print("\n---------- Tests Frequency : ----------")
 testFrequency()
 print("\n---------- Tests Runs : ----------")
 testRuns()
 print("\n")
+
+fichier = open("test.txt", "w")
+fichier.write("\nTests visuels chargés dans \"tests.txt\".\n")
+res = []
+for i in range(5):
+    res.append(vonNeuman(50+50*i))
+fichier.write(str(frequency(res, 32)))
+fichier.write("\n")
+
+res = []
+for i in range(5):
+    res.append(STM(50+50*i))
+fichier.write(str(frequency(res, 32)))
+fichier.write("\n")
+
+res = []
+for i in range(5):
+    res.append(RANDU(50+50*i))
+fichier.write(str(frequency(res, 32)))
+fichier.write("\n")
+
+res = []
+for i in range(5):
+    res.append(random.randrange(0, pow(2, 31)))
+fichier.write(str(frequency(res, 32)))
+fichier.write("\n")
+
+res = []
+for i in range(5):
+    res.append(vonNeuman(50+50*i))
+fichier.write(str(Runs(res, 32)))
+fichier.write("\n")
+
+res = []
+for i in range(5):
+    res.append(STM(50+50*i))
+fichier.write(str(Runs(res, 32)))
+fichier.write("\n")
+
+res = []
+for i in range(5):
+    res.append(RANDU(50+50*i))
+fichier.write(str(Runs(res, 32)))
+fichier.write("\n")
+
+res = []
+for i in range(5):
+    res.append(random.randrange(0, pow(2, 31)))
+fichier.write(str(Runs(res, 32)))
+fichier.write("\n")
