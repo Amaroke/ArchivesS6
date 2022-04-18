@@ -1,0 +1,28 @@
+# Bibliothèques nécessaires :
+
+PyGAD : https://pygad.readthedocs.io/en/latest/
+Installation avec PyPI : *pip install pygad*
+
+## enumeration.py
+
+### Création des résultats avec enumeration.py 1 par 1 :
+- python3 enumeration.py DonneesCodePizza/a_exemple.txt
+- python3 enumeration.py DonneesCodePizza/a_exemple.txt
+- python3 enumeration.py DonneesCodePizza/c_grossier.txt 
+
+### Création de tous les résultats avec enumeration.py en une ligne :
+- python3 enumeration.py DonneesCodePizza/a_exemple.txt && python3 enumeration.py DonneesCodePizza/a_exemple.txt && python3 enumeration.py DonneesCodePizza/c_grossier.txt 
+
+### Tests des résultats avec enumeration.py 1 par 1 :
+- python3 DonneesCodePizza/evaluation.py DonneesCodePizza/a_exemple.txt out_enumeration/A_enumeration.txt
+- python3 DonneesCodePizza/evaluation.py DonneesCodePizza/b_basique.txt out_enumeration/B_enumeration.txt
+- python3 DonneesCodePizza/evaluation.py DonneesCodePizza/c_grossier.txt out_enumeration/C_enumeration.txt
+
+### Tests de tous les résultats avec enumeration.py en une ligne :
+- python3 DonneesCodePizza/evaluation.py DonneesCodePizza/a_exemple.txt out_enumeration/A_enumeration.txt && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/a_exemple.txt out_enumeration/B_enumeration.txt && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/a_exemple.txt out_enumeration/C_enumeration.txt
+
+### Toutes les générations et les tests de enumeration.py :
+- python3 enumeration.py DonneesCodePizza/a_exemple.txt && python3 enumeration.py DonneesCodePizza/b_basique.txt && python3 enumeration.py DonneesCodePizza/c_grossier.txt && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/a_exemple.txt out_enumeration/A_enumeration.txt && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/b_basique.txt out_enumeration/B_enumeration.txt && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/c_grossier.txt out_enumeration/C_enumeration.txt
+  
+### Toutes les générations et les tests de algo_genetique.py :
+- python3 algo_genetique.py && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/a_exemple.txt out_algo_genetique/A_genetique.txt && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/b_basique.txt out_algo_genetique/B_genetique.txt && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/c_grossier.txt out_algo_genetique/C_genetique.txt && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/d_difficile.txt out_algo_genetique/D_genetique.txt && python3 DonneesCodePizza/evaluation.py DonneesCodePizza/e_elabore.txt out_algo_genetique/E_genetique.txt 
