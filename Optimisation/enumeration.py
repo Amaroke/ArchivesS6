@@ -35,10 +35,10 @@ with open(f"out_enumeration/{instance_file[17].upper()}_enumeration.txt", "w") a
     # Pour chaque combinaison d'ingrédients possible j'évalue le score, je met à jour le meilleur.
     for x in chain.from_iterable(combinations(ingredients, r) for r in range(len(ingredients)+1)):
         score_x = compute_score(x)
+        # Les résultats diffèrent en fonction de si l'on utilise <= ou <, mais les scores sont égaux.
         if meilleur_score <= score_x:
             meilleur_score = score_x
             meilleur_x = x
-
     # J'écris la meilleure solution dans mon fichier de résultat.
     f.write(str(len(meilleur_x)) + " " + str(meilleur_x).replace('(',
             '').replace(')', '').replace('\'', '').replace(',', '') + "\n")

@@ -1,4 +1,11 @@
 import pygad
+import sys
+
+try:
+    instance_file = sys.argv[1]
+except:
+    raise Exception("Erreur à la lecture des arguments. Syntaxe de la commande :\n\
+        python3 evaluation.py <chemin_vers_fichier_d_entree>")
 
 
 class Client:
@@ -17,45 +24,41 @@ class Probleme:
         this.ingredients = ingredients
         this.solution = solution  # La solution au problème.
 
-    ### UTILISATION DE PYGAD ###
-    # A COMPRENDRE + MODIF
+    # Utilisation de PyGAD (inspiré de Jacques Supcik : https://dev.to/supcik/solving-the-hash-code-2022-practice-challenge-with-70-lines-of-code-1a6k)
+    def resoudre(this):
+        liste_ingredients = sorted(list(this.ingredients))
 
-    def solve(self):
-        ingr_list = sorted(list(self.ingredients))
-
-        def fitness_func(solution, solution_idx):
-            pizza = set([ingr_list[k]
+        def fitness_func(solution, unused):
+            pizza = set([liste_ingredients[k]
                         for (k, v) in enumerate(solution) if v == 1])
-            result = 0
-            for c in self.clients:
-                if (c.aime & pizza == c.aime and c.deteste & pizza == set()):
-                    result += 1
-            return result
+            score = 0
+            for client in this.clients:
+                if (client.aime & pizza == client.aime and client.deteste & pizza == set()):
+                    score += 1
+            return score
 
         ga_instance = pygad.GA(
             num_generations=100,
             num_parents_mating=2,
             sol_per_pop=3,
-            num_genes=len(ingr_list),
+            num_genes=len(liste_ingredients),
             fitness_func=fitness_func,
             init_range_low=0,
             init_range_high=2,
             random_mutation_min_val=0,
             random_mutation_max_val=2,
             mutation_by_replacement=True,
+            mutation_probability=0.5,
             gene_type=int)
 
         ga_instance.run()
-
-        solution, solution_fitness, solution_idx = ga_instance.best_solution()
-        self.solution = set([ingr_list[k]
+        solution = ga_instance.best_solution()[0]
+        this.solution = set([liste_ingredients[k]
                             for (k, v) in enumerate(solution) if v == 1])
 
-    ##############################
-
-    def lire_ecrire_fichiers(this, fichier):
+    def lire_ecrire_fichiers(this):
         # Pour le problème donné en paramètre.
-        with open(f"DonneesCodePizza/{fichier}.txt") as f:
+        with open(f"{instance_file}") as f:
             n = int(f.readline())
             # Pour chaque ligne du fichier.
             for i in range(n):
@@ -69,20 +72,11 @@ class Probleme:
                 # On récupère la liste de tous ingrédients.
                 this.ingredients |= client.aime
                 this.ingredients |= client.deteste
-            this.solve()  # On résoud le problème.
+            this.resoudre()  # On résoud le problème.
         # On écrit les résultats.
-        with open(f"out_algo_genetique/{fichier[0].upper()}_genetique.txt", "w") as f:
+        with open(f"out_algo_genetique/{instance_file[17].upper()}_genetique.txt", "w") as f:
             f.write(f"{len(this.solution)} ")
             f.write(" ".join(this.solution))
 
 
-a = Probleme([], set(), set())
-a.lire_ecrire_fichiers("a_exemple")
-b = Probleme([], set(), set())
-b.lire_ecrire_fichiers("b_basique")
-c = Probleme([], set(), set())
-c.lire_ecrire_fichiers("c_grossier")
-d = Probleme([], set(), set())
-d.lire_ecrire_fichiers("d_difficile")
-e = Probleme([], set(), set())
-e.lire_ecrire_fichiers("e_elabore")
+Probleme([], set(), set()).lire_ecrire_fichiers()
